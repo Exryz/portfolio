@@ -1,0 +1,473 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #090a0d;
+  --surface: #111318;
+  --card: #14161c;
+  --frag: #1b1e25;
+  --frag-elevated: #21252e;
+  --ink: #f3f1ea;
+  --muted: #9498a1;
+  --accent: #7ab8d6;
+  --gold: #c9a66b;
+  --emerald: #5fb894;
+  --amber: #e2b458;
+  --danger: #e47171;
+
+  --c-border: color-mix(in oklab, var(--ink) 9%, transparent);
+  --c-border-hover: color-mix(in oklab, var(--gold) 28%, transparent);
+  --c-text: color-mix(in oklab, var(--ink) 84%, var(--card));
+  --c-hi: rgba(255, 255, 255, 0.06);
+
+  --u-border: rgba(243, 241, 234, 0.12);
+  --u-line: rgba(243, 241, 234, 0.08);
+  --u-fill: rgba(243, 241, 234, 0.045);
+  --u-fill-2: rgba(243, 241, 234, 0.08);
+
+  --gut: clamp(1.25rem, 5.5vw, 5rem);
+  --ease-ui: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-press: cubic-bezier(0.23, 1, 0.32, 1);
+
+  --noise-tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.25 0 0 0 0 0.25 0 0 0 0 0.25 0 0 0 0.45 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family: var(--font-display), "Palatino Linotype", Georgia, serif;
+  font-variation-settings: "SOFT" 70, "WONK" 0;
+  letter-spacing: -0.025em;
+}
+
+.font-mono-code {
+  font-family: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.wrap {
+  width: min(calc(100% - 2 * var(--gut)), 1280px);
+  margin-inline: auto;
+}
+
+.screen-section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-block: 5.5rem 2.25rem;
+}
+
+.screen-section--compact {
+  padding-block: 6rem 3.5rem;
+}
+
+/* Fixed header mark (astral crest ring) */
+.mark-ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--gold);
+  box-shadow: inset 0 0 0 3px var(--bg);
+}
+
+.mark-ring::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--accent);
+}
+
+/* Tactile button & card transitions */
+.btn-press {
+  transition:
+    transform 150ms var(--ease-press),
+    background-color 150ms var(--ease-ui),
+    border-color 150ms var(--ease-ui),
+    color 150ms var(--ease-ui);
+}
+
+.btn-press:active {
+  transform: scale(0.985) translateY(1px);
+}
+
+/* x.ai / Figma-grade Card */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 2rem;
+  border-radius: 20px;
+  background-color: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--c-border);
+  box-shadow:
+    inset 0 1px 0 var(--c-hi),
+    0 1px 2px rgba(0, 0, 0, 0.35);
+  overflow: clip;
+  transition:
+    transform 180ms var(--ease-ui),
+    border-color 180ms var(--ease-ui);
+}
+
+@media (max-width: 639px) {
+  .card {
+    padding: 1.25rem;
+    border-radius: 18px;
+  }
+}
+
+.card--linked:hover {
+  transform: translateY(-2px);
+  border-color: var(--c-border-hover);
+}
+
+.card__title {
+  margin: 0;
+  font-size: 1.1875rem;
+  line-height: 1.625rem;
+  font-weight: 560;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.card__text {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: var(--c-text);
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+
+/* Lit Painterly Inset Panel (Bright Frieren Grounds inside Dark Cards) */
+.panel {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  margin-top: 2rem;
+  margin-bottom: calc(-2rem - 1px);
+  min-height: var(--p-h, 340px);
+  flex: 1 0 auto;
+  border-radius: 12px 12px 0 0;
+}
+
+.panel--inset {
+  margin: 2rem calc(8px - 2rem) calc(8px - 2rem);
+  border-radius: 12px;
+}
+
+@media (max-width: 639px) {
+  .panel {
+    min-height: var(--p-h-sm, 260px);
+    margin-top: 1.5rem;
+    margin-bottom: calc(-1.25rem - 1px);
+  }
+  .panel--inset {
+    margin: 1.5rem calc(8px - 1.25rem) calc(8px - 1.25rem);
+  }
+}
+
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.14;
+  mix-blend-mode: multiply;
+  background-image: var(--noise-tile);
+}
+
+/* Frieren Daylight Meadow & Blue-Moon Sky */
+.panel--painting {
+  background-color: #a9c7e4;
+  background-image:
+    radial-gradient(125% 70% at 74% 112%, rgba(103, 122, 62, 0.92) 0%, rgba(103, 122, 62, 0.55) 38%, transparent 66%),
+    radial-gradient(95% 65% at 14% 106%, rgba(84, 110, 66, 0.9) 0%, rgba(84, 110, 66, 0.45) 42%, transparent 70%),
+    radial-gradient(85% 50% at 56% 86%, rgba(164, 182, 198, 0.85) 0%, rgba(164, 182, 198, 0.25) 48%, transparent 74%),
+    radial-gradient(50% 45% at 88% 12%, rgba(235, 224, 200, 0.55) 0%, transparent 70%),
+    linear-gradient(180deg, #5484bd 0%, #8fb6da 48%, #c7d5df 76%, #7d8b59 100%);
+}
+
+/* Grimoire Vellum */
+.panel--sand {
+  background-color: #d9ccb7;
+  background-image:
+    radial-gradient(75% 90% at 12% 0%, #efe7da 0%, transparent 70%),
+    radial-gradient(65% 80% at 96% 96%, rgba(168, 121, 74, 0.42) 0%, transparent 72%),
+    radial-gradient(50% 60% at 86% 12%, rgba(243, 236, 222, 0.72) 0%, transparent 70%);
+}
+
+/* Himmel Celestial Wash */
+.panel--sky {
+  background-color: #c6d3df;
+  background-image:
+    radial-gradient(75% 90% at 14% 0%, #dfe7ef 0%, transparent 70%),
+    radial-gradient(65% 80% at 96% 96%, rgba(63, 106, 146, 0.36) 0%, transparent 72%),
+    radial-gradient(55% 60% at 84% 16%, rgba(232, 240, 247, 0.68) 0%, transparent 70%);
+}
+
+/* Auberst Forest Mist */
+.panel--sage {
+  background-color: #cdd6c6;
+  background-image:
+    radial-gradient(75% 90% at 12% 0%, #e1e8dc 0%, transparent 70%),
+    radial-gradient(65% 80% at 98% 96%, rgba(108, 142, 99, 0.38) 0%, transparent 72%),
+    radial-gradient(50% 60% at 85% 14%, rgba(236, 242, 232, 0.65) 0%, transparent 70%);
+}
+
+/* Cropped Stage & Edge Dissolve Masks */
+.stage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  --fade-h: 64px;
+}
+
+.stage--fade-b {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade-h)), transparent calc(100% - 2px));
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade-h)), transparent calc(100% - 2px));
+}
+
+/* Hero Full-Width App Frame */
+.hero-window {
+  position: relative;
+  border-radius: 18px;
+  padding: 1.35rem 1.5rem 0;
+  overflow: clip;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 32px 80px -24px rgba(0, 0, 0, 0.8);
+}
+
+@media (max-width: 767px) {
+  .hero-window {
+    padding: 0.875rem 0.875rem 0;
+    border-radius: 14px;
+  }
+}
+
+.app-frame {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  background-color: var(--frag);
+  color: var(--ink);
+  border: 1px solid var(--u-border);
+  border-bottom: 0;
+  border-radius: 12px 12px 0 0;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 24px 60px -16px rgba(9, 10, 13, 0.78);
+  overflow: hidden;
+  min-height: 360px;
+}
+
+@media (max-width: 1023px) {
+  .app-frame {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: auto;
+  }
+}
+
+.app-pane {
+  position: relative;
+  min-width: 0;
+}
+
+.app-pane--list {
+  border-right: 1px solid var(--u-line);
+  background-color: #16181f;
+}
+
+@media (max-width: 1023px) {
+  .app-pane--list {
+    border-right: 0;
+    border-bottom: 1px solid var(--u-line);
+  }
+}
+
+/* True-scale 13px dark product UI panel inside lit cards */
+.ui-panel {
+  background-color: var(--frag);
+  color: var(--ink);
+  border: 1px solid var(--u-border);
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 12px 28px -10px rgba(9, 10, 13, 0.65),
+    0 28px 56px -18px rgba(9, 10, 13, 0.72);
+  overflow: hidden;
+}
+
+.ui-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 42px;
+  padding-inline: 14px;
+  border-bottom: 1px solid var(--u-line);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.ui-dots {
+  display: inline-flex;
+  gap: 5px;
+  flex: none;
+}
+
+.ui-dots i {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background-color: rgba(243, 241, 234, 0.16);
+}
+
+.ui-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  background-color: var(--u-fill);
+  color: var(--muted);
+  border: 1px solid var(--u-line);
+}
+
+.ui-chip--accent {
+  background-color: rgba(122, 184, 214, 0.14);
+  color: var(--accent);
+  border-color: rgba(122, 184, 214, 0.28);
+}
+
+.ui-chip--gold {
+  background-color: rgba(201, 166, 107, 0.14);
+  color: var(--gold);
+  border-color: rgba(201, 166, 107, 0.28);
+}
+
+.ui-chip--ok {
+  background-color: rgba(95, 184, 148, 0.14);
+  color: var(--emerald);
+  border-color: rgba(95, 184, 148, 0.28);
+}
+
+/* Ruled Ledger Rows */
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rows > li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--u-line);
+}
+
+.rows > li:last-child {
+  border-bottom: 1px solid var(--u-line);
+}
+
+/* Diagram Comet Animation */
+@keyframes cometFlow {
+  0% {
+    stroke-dashoffset: 180;
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -180;
+    opacity: 0.2;
+  }
+}
+
+.comet-line {
+  stroke-dasharray: 28 152;
+  animation: cometFlow 3.2s linear infinite;
+}
+
+@keyframes heroEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-enter] {
+    animation: heroEnter 520ms var(--ease-enter) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comet-line {
+    animation: none;
+    stroke-dasharray: none;
+    opacity: 0.7;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
