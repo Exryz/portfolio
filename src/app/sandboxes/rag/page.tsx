@@ -86,9 +86,12 @@ export default function RagSandboxPage() {
       <footer className="border-t border-white/10 bg-[#060709] py-12">
         <div className="wrap flex flex-wrap items-center justify-between gap-4 text-[13px] text-[#9498a1]">
           <span>{PROFILE.handle} · RAG &amp; MCP Evaluation Sandbox</span>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-5">
             <Link href="/" className="hover:text-[#f3f1ea] transition-colors">
               Portfolio
+            </Link>
+            <Link href="/sandboxes/docextract" className="hover:text-[#f3f1ea] transition-colors">
+              DocExtract Sandbox
             </Link>
             <a
               href="https://github.com/Exryz/helpdesk-agent"

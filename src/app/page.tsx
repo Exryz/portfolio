@@ -34,6 +34,9 @@ export default function HomePage() {
             <Link href="/sandboxes/rag" className="transition-colors text-[#7ab8d6] hover:text-[#f3f1ea]">
               RAG Sandbox
             </Link>
+            <Link href="/sandboxes/docextract" className="transition-colors text-[#c9a66b] hover:text-[#f3f1ea]">
+              DocExtract Sandbox
+            </Link>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -233,6 +236,14 @@ export default function HomePage() {
                           <span>Launch live RAG sandbox</span>
                           <ArrowRight className="h-4 w-4" aria-hidden="true" />
                         </Link>
+                      ) : project.id === "docextract" ? (
+                        <Link
+                          href="/sandboxes/docextract"
+                          className="btn-press inline-flex items-center gap-1.5 text-[15px] font-medium text-[#c9a66b] hover:text-[#f3f1ea]"
+                        >
+                          <span>Launch live validator sandbox</span>
+                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
                       ) : null}
                     </div>
                   </div>
@@ -315,6 +326,11 @@ export default function HomePage() {
                 <li>
                   <Link href="/sandboxes/rag" className="hover:text-[#f3f1ea] transition-colors">
                     RAG + MCP Sandbox
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sandboxes/docextract" className="hover:text-[#f3f1ea] transition-colors">
+                    DocExtract Validator Sandbox
                   </Link>
                 </li>
               </ul>
