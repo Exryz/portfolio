@@ -1,4 +1,5 @@
-import { ArrowUpRight, Github } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, Github } from "lucide-react";
 import { BentoFragments, HeroAppFrame } from "@/components/InteractiveWorkbench";
 import { PROFILE, PROJECTS, getTotalAutomatedTests } from "@/data/portfolio";
 
@@ -30,6 +31,9 @@ export default function HomePage() {
             <a href="#benchmarks" className="transition-colors hover:text-[#f3f1ea]">
               Benchmarks
             </a>
+            <Link href="/sandboxes/rag" className="transition-colors text-[#7ab8d6] hover:text-[#f3f1ea]">
+              RAG Sandbox
+            </Link>
           </nav>
 
           <div className="flex items-center gap-3">
@@ -211,15 +215,26 @@ export default function HomePage() {
                       {project.stack.join(" · ")}
                     </div>
 
-                    <a
-                      href={project.repoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="btn-press mt-4 inline-flex items-center gap-1.5 text-[15px] font-medium text-[#f3f1ea] hover:text-[#7ab8d6]"
-                    >
-                      <span>Inspect repository</span>
-                      <ArrowUpRight className="h-4 w-4 text-[#c9a66b]" aria-hidden="true" />
-                    </a>
+                    <div className="mt-4 flex flex-wrap items-center gap-5">
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-press inline-flex items-center gap-1.5 text-[15px] font-medium text-[#f3f1ea] hover:text-[#7ab8d6]"
+                      >
+                        <span>Inspect repository</span>
+                        <ArrowUpRight className="h-4 w-4 text-[#c9a66b]" aria-hidden="true" />
+                      </a>
+                      {project.id === "helpdesk-agent" ? (
+                        <Link
+                          href="/sandboxes/rag"
+                          className="btn-press inline-flex items-center gap-1.5 text-[15px] font-medium text-[#7ab8d6] hover:text-[#f3f1ea]"
+                        >
+                          <span>Launch live RAG sandbox</span>
+                          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                        </Link>
+                      ) : null}
+                    </div>
                   </div>
                 </article>
               ))}
@@ -296,6 +311,11 @@ export default function HomePage() {
                   <a href="#benchmarks" className="hover:text-[#f3f1ea] transition-colors">
                     Verified Benchmarks
                   </a>
+                </li>
+                <li>
+                  <Link href="/sandboxes/rag" className="hover:text-[#f3f1ea] transition-colors">
+                    RAG + MCP Sandbox
+                  </Link>
                 </li>
               </ul>
             </div>

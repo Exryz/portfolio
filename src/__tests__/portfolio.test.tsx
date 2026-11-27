@@ -68,6 +68,7 @@ describe("HomePage", () => {
     expect(links).toContain("https://github.com/Exryz");
     expect(links).toContain("https://github.com/Exryz/helpdesk-agent");
     expect(links).toContain("https://github.com/Exryz/docextract");
+    expect(links).toContain("/sandboxes/rag");
   });
 
   it("supports interactive scenario switching, repair patch toggle, and bbox review toggle", () => {
